@@ -4,7 +4,7 @@
 
 # Site
 title: Notes
-subtitle: ''
+subtitle: '剑戟不利，不可以断割；毛羽不丰，不可以高飞。'
 description: ''
 keywords:
 author: Jiang Yao
@@ -101,3 +101,9 @@ deploy:
   type: git
   repo: https://github.com/jiangyao-zh/jiangyao-zh.github.io.git
   branch: master
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000  
