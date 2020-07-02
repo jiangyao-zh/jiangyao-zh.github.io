@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
+  <entry>
+    <title>EasySwoole框架源码分析（一）</title>
+    <url>/2020/07/02/EasySwoole%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<p>##Swoole近期的流行趋势不亚于一门语言，比如说Go，针对于目前的大环境可以说是大势所趋，基于以后应用的角度选取EasySwoole框架进行源码分析。</p>
+]]></content>
+      <tags>
+        <tag>PHP,Swoole</tag>
+      </tags>
+  </entry>
 </search>
