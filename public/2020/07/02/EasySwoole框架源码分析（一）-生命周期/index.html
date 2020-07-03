@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="PHP,Swoole," />
 
 
 
@@ -79,12 +79,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Notes">
-<meta property="og:url" content="https://github.com/jiangyao-zh/tags/PHP-Swoole/index.html">
+<meta name="description" content="Swoole近期的流行趋势不亚于一门语言，比如说Go，针对于目前的大环境可以说是大势所趋，基于以后应用的角度选取EasySwoole框架进行源码分析。 首先简单说下Swoole是什么，它的优势和特性在哪？ 先看下Swoole的官方解释，  Swoole使PHP开发人员可以编写高性能高并发的TCP、UDP、Unix Socket、HTTP、WebSocket等服务，让PHP不再局限于Web领域。Sw">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EasySwoole框架源码分析（一）-生命周期">
+<meta property="og:url" content="https://github.com/jiangyao-zh/2020/07/02/EasySwoole%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/index.html">
 <meta property="og:site_name" content="Notes">
+<meta property="og:description" content="Swoole近期的流行趋势不亚于一门语言，比如说Go，针对于目前的大环境可以说是大势所趋，基于以后应用的角度选取EasySwoole框架进行源码分析。 首先简单说下Swoole是什么，它的优势和特性在哪？ 先看下Swoole的官方解释，  Swoole使PHP开发人员可以编写高性能高并发的TCP、UDP、Unix Socket、HTTP、WebSocket等服务，让PHP不再局限于Web领域。Sw">
+<meta property="og:image" content="https://github.com/images/lifecycle.png">
+<meta property="article:published_time" content="2020-07-02T09:10:44.000Z">
+<meta property="article:modified_time" content="2020-07-03T07:21:09.353Z">
 <meta property="article:author" content="Jiang Yao">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Swoole">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/images/lifecycle.png">
 
 
 
@@ -114,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/jiangyao-zh/tags/PHP-Swoole/"/>
+  <link rel="canonical" href="https://github.com/jiangyao-zh/2020/07/02/EasySwoole框架源码分析（一）-生命周期/"/>
 
 
 
 
 
-  <title>标签: PHP,Swoole | Notes</title>
+  <title>EasySwoole框架源码分析（一）-生命周期 | Notes</title>
   
 
 
@@ -139,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -257,54 +265,160 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>PHP,Swoole<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/jiangyao-zh/2020/07/02/EasySwoole%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Yao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Notes">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/07/02/EasySwoole%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89/" itemprop="url">
-              
-                <span itemprop="name">EasySwoole框架源码分析（一）</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">EasySwoole框架源码分析（一）-生命周期</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-07-02T17:10:44+08:00"
-              content="2020-07-02" >
-          07-02
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-02T17:10:44+08:00">
+                2020-07-02
+              </time>
+            
 
-    </header>
-  </article>
+            
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-07-03T15:21:09+08:00">
+                2020-07-03
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.swoole.com" target="_blank" rel="noopener">Swoole</a>近期的流行趋势不亚于一门语言，比如说Go，针对于目前的大环境可以说是大势所趋，基于以后应用的角度选取<a href="https://www.easyswoole.com" target="_blank" rel="noopener">EasySwoole</a>框架进行源码分析。</p>
+<p>首先简单说下Swoole是什么，它的优势和特性在哪？</p>
+<p>先看下Swoole的官方解释，</p>
+<blockquote>
+<p>Swoole使PHP开发人员可以编写高性能高并发的TCP、UDP、Unix Socket、HTTP、WebSocket等服务，让PHP不再局限于Web领域。Swoole4协程的成熟将PHP带入了前所未有的时期，为性能的提升提供了独一无二的可能性。Swoole可以广泛应用于互联网、移动通信、云计算、网络游戏、物联网（IOT）、车联网、智能家居等领域。使用PHP + Swoole可以使企业IT研发团队的效率大大提升，更加专注于开发创新产品。</p>
+</blockquote>
+<p>这里我们总结出几个关键词，高性能、高并发、多服务、协程机制、广泛应用领域，这些方面与PHP高效的开发效率结合就不难看出它所做的事情和优势了。</p>
+<p>随后再从<a href="https://wiki.swoole.com" target="_blank" rel="noopener">Swoole官方文档</a>角度来看Swoole，虽然是标准的PHP扩展，但实际上又与普通扩展只提供一个库函数不同（这就有了Swoole既是扩展又是框架的说法），它所做的是接管PHP的控制权，进入事件循环，当IO事件发生后底层会自动回调指定的PHP函数。</p>
+<p>最后从文档总结Swoole有以下几个特性：</p>
+<ol>
+<li>常驻内存，避免重复加载带来的性能损耗，提升海量性能。。</li>
+<li>协程异步，提高对I/O密集型场景并发处理能力；</li>
+<li>内置服务，方便地开发Http、<a href="https://www.ruanyifeng.com/blog/2017/05/websocket.html" target="_blank" rel="noopener">WebSocket</a>、TCP、UDP等应用，可以与硬件通信；</li>
+</ol>
+<p>以上就是Swoole的简单介绍，因为工作和兴趣的关系，选取基于Swoole Server开发的常驻内存型的分布式PHP框架EasySwoole，进行源码分析学习。</p>
+<h5 id="从生命周期开始"><a href="#从生命周期开始" class="headerlink" title="从生命周期开始"></a>从生命周期开始</h5><p><img src="/images/lifecycle.png" alt="life-cycle" title="生命周期"></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/Swoole/" rel="tag"># Swoole</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -312,6 +426,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -332,8 +450,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -365,7 +492,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -388,6 +515,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#从生命周期开始"><span class="nav-number">1.</span> <span class="nav-text">从生命周期开始</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -537,6 +680,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
