@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="使用Compose对TP5进行部署软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql） Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.29.1（文件格式版本3.0，建议安装最新版本）  安装Docker1curl -fsSL https:&#x2F;&#x2F;get.docker.com | bash -s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker+TP5部署">
+<meta property="og:url" content="https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="Note">
+<meta property="og:description" content="使用Compose对TP5进行部署软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql） Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.29.1（文件格式版本3.0，建议安装最新版本）  安装Docker1curl -fsSL https:&#x2F;&#x2F;get.docker.com | bash -s">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-26T02:25:19.000Z">
+<meta property="article:modified_time" content="2022-06-07T09:48:42.425Z">
+<meta property="article:author" content="Jy">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Compose">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Docker+TP5部署</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/04/25/hexo-new-page-fatal-TypeError-Object-fromEntries-is-not-a-function/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&text=Docker+TP5部署"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&is_video=false&description=Docker+TP5部署"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Docker+TP5部署&body=Check out this article: https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&name=Docker+TP5部署&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&t=Docker+TP5部署"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Compose%E5%AF%B9TP5%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2"><span class="toc-number">1.</span> <span class="toc-text">使用Compose对TP5进行部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E%EF%BC%88%E6%95%B0%E6%8D%AE%E7%9B%B8%E5%AF%B9%E7%8B%AC%E7%AB%8B%EF%BC%8C%E6%9C%AC%E6%96%87%E4%B8%8D%E6%B6%89%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%EF%BC%8C%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8mysql%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Docker"><span class="toc-number">1.2.</span> <span class="toc-text">安装Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85docker-compose"><span class="toc-number">1.3.</span> <span class="toc-text">安装docker-compose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85PHP"><span class="toc-number">1.4.</span> <span class="toc-text">安装PHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Nginx"><span class="toc-number">1.5.</span> <span class="toc-text">安装Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.6.</span> <span class="toc-text">目录结构</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Docker+TP5部署
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Jy</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-05-26T02:25:19.000Z" itemprop="datePublished">2022-05-26</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Compose/" rel="tag">Compose</a>, <a class="tag-link-link" href="/tags/Docker/" rel="tag">Docker</a>, <a class="tag-link-link" href="/tags/PHP/" rel="tag">PHP</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="使用Compose对TP5进行部署"><a href="#使用Compose对TP5进行部署" class="headerlink" title="使用Compose对TP5进行部署"></a>使用Compose对TP5进行部署</h2><h3 id="软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）"><a href="#软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）" class="headerlink" title="软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）"></a>软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）</h3><ol>
+<li>Nginx 1.16</li>
+<li>PHP 7.2</li>
+<li>CentOS 7.9（已安装）</li>
+<li>Docker <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/release-notes/">20.10.14</a></li>
+<li>docker-compose <a target="_blank" rel="noopener" href="https://docs.docker.com/compose/release-notes/">1.29.1</a>（文件格式版本3.0，建议安装最新版本）</li>
+</ol>
+<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/docker/centos-docker-install.html">详细教程</a></p>
+<h3 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h3><ol>
+<li><p>下载最新版的docker-compose文件</p>
+ <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo curl -L https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>添加可执行权限</p>
+ <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo chmod +x /usr/local/bin/docker-compose<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看版本</p>
+ <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">docker-compose -v<br>docker-compose version 1.29.1, build 8dd22a9<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h3><ol>
+<li><p>创建php7.2的docker目录(每个项目支持PHP较为不同，所以版本号命名方便区分)</p>
+ <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">mkdir /docker/php7.2<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在php7.2目录下新建docker-compose.yml文件</p>
+ <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs text">version: &quot;3&quot;<br><br>services:<br>fpm:<br>    build:<br>        context: ./ #Dockerfile路径<br>        dockerfile: php7.2_fpm_dockerfile #服务除了可以基于指定的镜像，还可以基于一份Dockerfile，我把Dockerfile放到下面<br>    restart: always<br>    networks:<br>       - db<br>    environment:<br>       - TZ=Asia/Shanghai<br>    privileged: true<br>    volumes:<br>       - /home/code/tp5:/var/www/tp5 #挂在程序目录，建议此目录与nginx挂在目录保持一致<br>networks:<br>db:<br>    external: true <br></code></pre></td></tr></table></figure>
+
+ <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">FROM php:7.2.24-fpm<br>RUN docker-php-ext-install pdo pdo_mysql #增加mysql扩展<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">docker-compose up -d <br></code></pre></td></tr></table></figure>
+
+<p>在&#x2F;home&#x2F;code&#x2F;tp5目录下创建index.php进行测试</p>
+</li>
+</ol>
+<h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><ol>
+<li><p>创建nginx的docker目录</p>
+ <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">mkdir /docker/nginx<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在nginx目录下新建docker-compose.yml文件</p>
+ <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs text">version: &quot;3&quot;<br>services:<br>nginx:<br>restart: always<br>container_name: nginx<br>image: nginx<br>networks:<br>   - db<br>ports:<br>   - 80:80<br>volumes:<br>   - ./conf/conf.d:/etc/nginx/conf.d<br>   - ./etc/nginx/nginx.conf:/etc/nginx/nginx.conf<br>   - ./log:/var/log/nginx<br>   - ./wwww:/var/www<br>   - /home/code/tp5:/var/www/tp5 #挂在程序目录，建议此目录与php挂在目录保持一致<br>networks:<br>db:<br>    external: true    <br></code></pre></td></tr></table></figure>
+</li>
+<li><p>配置TP5的conf，在&#x2F;docker&#x2F;nginx&#x2F;conf&#x2F;conf.d下创建tp.conf文件</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs text">server &#123;<br>    listen 80;<br>    listen [::]:80;<br>    server_name 127.0.0.1;<br>        root /var/www/tp5;<br>        index index.html index.htm index.php default.html default.htm default.php;<br><br>    location / &#123;<br>            index index.html index.php;<br>            if (!-e $request_filename) &#123;<br>                    rewrite  ^(.*)$  /index.php?s=$1  last;<br>                    break;<br>            &#125;<br>    &#125;<br><br>    location ~ .*\.(php|php5)?$<br>    &#123;<br>        fastcgi_pass    php72_fpm_1:9000; #与docker ps命令列表中的NAMES保持一直<br>        fastcgi_index   index.php;<br>        fastcgi_param   SCRIPT_FILENAME  $document_root$fastcgi_script_name;<br>        fastcgi_param   SCRIPT_NAME      $fastcgi_script_name;<br>        include         fastcgi_params;<br>    &#125;<br><br>    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$<br>    &#123;<br>        expires      30d;<br>    &#125;<br><br>    location ~ .*\.(js|css)?$<br>    &#123;<br>        expires      12h;<br>    &#125;<br><br>    location ~ /.well-known &#123;<br>        allow all;<br>    &#125;<br><br>    location ~ /\.<br>    &#123;<br>        deny all;<br>    &#125;<br><br>    access_log  /var/log/nginx/tp5.access.log;<br>    error_log  /var/log/nginx/tp5.error.log; <br></code></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">docker-compose up -d <br></code></pre></td></tr></table></figure>
+
+<p>测试&#x2F;&#x2F;127.0.0.1&#x2F;index.php</p>
+</li>
+</ol>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3>   <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs text">├── docker<br>│   ├── nginx<br>│   │   ├── conf<br>│   │   │   └── conf.d<br>│   │   │       └── tp5.conf<br>│   │   ├── docker-compose.yml<br>│   │   ├── etc<br>│   │   │   └── nginx<br>│   │   │       └── nginx.conf<br>│   │   ├── html<br>│   │   ├── log<br>│   │   │   ├── tp5.access.log<br>│   │   │   └── tp5.error.log<br>│   │   ├── timezone<br>│   │   └── wwww<br>│   ├── php72<br>│   │   ├── docker-compose.yml<br>│   │   └── php7.2_fpm_dockerfile<br></code></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Compose%E5%AF%B9TP5%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2"><span class="toc-number">1.</span> <span class="toc-text">使用Compose对TP5进行部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E%EF%BC%88%E6%95%B0%E6%8D%AE%E7%9B%B8%E5%AF%B9%E7%8B%AC%E7%AB%8B%EF%BC%8C%E6%9C%AC%E6%96%87%E4%B8%8D%E6%B6%89%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%EF%BC%8C%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8mysql%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Docker"><span class="toc-number">1.2.</span> <span class="toc-text">安装Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85docker-compose"><span class="toc-number">1.3.</span> <span class="toc-text">安装docker-compose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85PHP"><span class="toc-number">1.4.</span> <span class="toc-text">安装PHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Nginx"><span class="toc-number">1.5.</span> <span class="toc-text">安装Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.6.</span> <span class="toc-text">目录结构</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&text=Docker+TP5部署"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&is_video=false&description=Docker+TP5部署"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Docker+TP5部署&body=Check out this article: https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&title=Docker+TP5部署"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&name=Docker+TP5部署&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiangyao-zh.github.io/2022/05/26/Docker-TP5%E9%83%A8%E7%BD%B2/&t=Docker+TP5部署"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022
+    Jy
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
