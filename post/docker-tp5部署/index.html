@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>Docker&#43;TP5部署 - Note</title>
+
+  
+  
+  <meta name="description" content="使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）  Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.29.1（文件格式版本3.0，建议安装最新版本）  安装Docker curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 详细教程
+安装docker-compose   下载最新版的docker-compose文件
+sudo curl -L https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose   添加可执行权限
+sudo chmod &#43;x /usr/local/bin/docker-compose   查看版本
+docker-compose -v docker-compose version 1.29.1, build 8dd22a9   安装PHP   创建php7.2的docker目录(每个项目支持PHP较为不同，所以版本号命名方便区分)
+mkdir /docker/php7.2   在php7.2目录下新建docker-compose.yml文件
+version: &#34;3&#34; services: fpm: build: context: ." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://jiangyao-zh.github.io/app.min.css" />
+
+  
+  <link rel="preload stylesheet" as="style" href="https://jiangyao-zh.github.io/an-old-hope.min.css" />
+  <script
+    defer
+    src="https://jiangyao-zh.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  <link rel="preload" as="image" href="https://jiangyao-zh.github.io/theme.png" />
+
+  
+
+  
+  <link rel="icon" href="https://jiangyao-zh.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://jiangyao-zh.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.68.3" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Docker&#43;TP5部署" />
+<meta property="og:description" content="使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）  Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.29.1（文件格式版本3.0，建议安装最新版本）  安装Docker curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 详细教程
+安装docker-compose   下载最新版的docker-compose文件
+sudo curl -L https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose   添加可执行权限
+sudo chmod &#43;x /usr/local/bin/docker-compose   查看版本
+docker-compose -v docker-compose version 1.29.1, build 8dd22a9   安装PHP   创建php7.2的docker目录(每个项目支持PHP较为不同，所以版本号命名方便区分)
+mkdir /docker/php7.2   在php7.2目录下新建docker-compose.yml文件
+version: &#34;3&#34; services: fpm: build: context: ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jiangyao-zh.github.io/post/docker-tp5%E9%83%A8%E7%BD%B2/" />
+<meta property="article:published_time" content="2022-05-26T10:25:19+00:00" />
+<meta property="article:modified_time" content="2022-05-26T10:25:19+00:00" />
+
+  
+  <meta itemprop="name" content="Docker&#43;TP5部署">
+<meta itemprop="description" content="使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）  Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.29.1（文件格式版本3.0，建议安装最新版本）  安装Docker curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 详细教程
+安装docker-compose   下载最新版的docker-compose文件
+sudo curl -L https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose   添加可执行权限
+sudo chmod &#43;x /usr/local/bin/docker-compose   查看版本
+docker-compose -v docker-compose version 1.29.1, build 8dd22a9   安装PHP   创建php7.2的docker目录(每个项目支持PHP较为不同，所以版本号命名方便区分)
+mkdir /docker/php7.2   在php7.2目录下新建docker-compose.yml文件
+version: &#34;3&#34; services: fpm: build: context: .">
+<meta itemprop="datePublished" content="2022-05-26T10:25:19&#43;00:00" />
+<meta itemprop="dateModified" content="2022-05-26T10:25:19&#43;00:00" />
+<meta itemprop="wordCount" content="295">
+
+
+
+<meta itemprop="keywords" content="Docker,Compose,PHP," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Docker&#43;TP5部署"/>
+<meta name="twitter:description" content="使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）  Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.29.1（文件格式版本3.0，建议安装最新版本）  安装Docker curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 详细教程
+安装docker-compose   下载最新版的docker-compose文件
+sudo curl -L https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose   添加可执行权限
+sudo chmod &#43;x /usr/local/bin/docker-compose   查看版本
+docker-compose -v docker-compose version 1.29.1, build 8dd22a9   安装PHP   创建php7.2的docker目录(每个项目支持PHP较为不同，所以版本号命名方便区分)
+mkdir /docker/php7.2   在php7.2目录下新建docker-compose.yml文件
+version: &#34;3&#34; services: fpm: build: context: ."/>
+
+  
+  
+</head>
+
+
+  <body class="not-ready" data-menu="false">
+    <header class="header">
+  
+  <p class="logo">
+    <a class="site-name" href="https://jiangyao-zh.github.io">Note</a><a class="btn-dark"></a>
+  </p>
+  
+
+  <script>
+    let bodyClx = document.body.classList;
+    let btnDark = document.querySelector('.btn-dark');
+    let sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+    let darkVal = localStorage.getItem('dark');
+
+    let setDark = (isDark) => {
+      bodyClx[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark ? 'yes' : 'no');
+    };
+
+    setDark(darkVal ? darkVal === 'yes' : sysDark.matches);
+    requestAnimationFrame(() => bodyClx.remove('not-ready'));
+
+    btnDark.addEventListener('click', () => setDark(!bodyClx.contains('dark')));
+    sysDark.addEventListener('change', (event) => setDark(event.matches));
+  </script>
+
+  
+  
+
+  
+</header>
+
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-title">
+    <p>
+      
+      <time>:date_medium</time>
+      
+      
+    </p>
+    <h1>Docker&#43;TP5部署</h1>
+  </header>
+  <section class="post-content"><h2 id="使用compose对tp5进行部署">使用Compose对TP5进行部署</h2>
+<h3 id="软件版本说明数据相对独立本文不涉及数据库安装建议使用mysql">软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）</h3>
+<ol>
+<li>Nginx 1.16</li>
+<li>PHP 7.2</li>
+<li>CentOS 7.9（已安装）</li>
+<li>Docker <a href="https://docs.docker.com/engine/release-notes/">20.10.14</a></li>
+<li>docker-compose <a href="https://docs.docker.com/compose/release-notes/">1.29.1</a>（文件格式版本3.0，建议安装最新版本）</li>
+</ol>
+<h3 id="安装docker">安装Docker</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+</code></pre></div><p><a href="https://www.runoob.com/docker/centos-docker-install.html">详细教程</a></p>
+<h3 id="安装docker-compose">安装docker-compose</h3>
+<ol>
+<li>
+<p>下载最新版的docker-compose文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">sudo curl -L https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+</code></pre></div></li>
+<li>
+<p>添加可执行权限</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">sudo chmod +x /usr/local/bin/docker-compose
+</code></pre></div></li>
+<li>
+<p>查看版本</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">docker-compose -v
+docker-compose version 1.29.1, build 8dd22a9
+</code></pre></div></li>
+</ol>
+<h3 id="安装php">安装PHP</h3>
+<ol>
+<li>
+<p>创建php7.2的docker目录(每个项目支持PHP较为不同，所以版本号命名方便区分)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">mkdir /docker/php7.2
+</code></pre></div></li>
+<li>
+<p>在php7.2目录下新建docker-compose.yml文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">    version: &#34;3&#34;
+
+    services:
+    fpm:
+        build:
+            context: ./ #Dockerfile路径
+            dockerfile: php7.2_fpm_dockerfile #服务除了可以基于指定的镜像，还可以基于一份Dockerfile，我把Dockerfile放到下面
+        restart: always
+        networks:
+           - db
+        environment:
+           - TZ=Asia/Shanghai
+        privileged: true
+        volumes:
+           - /home/code/tp5:/var/www/tp5 #挂在程序目录，建议此目录与nginx挂在目录保持一致
+    networks:
+    db:
+        external: true 
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">FROM php:7.2.24-fpm
+RUN docker-php-ext-install pdo pdo_mysql #增加mysql扩展
+</code></pre></div></li>
+<li>
+<p>启动服务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">docker-compose up -d 
+</code></pre></div><p>在/home/code/tp5目录下创建index.php进行测试</p>
+</li>
+</ol>
+<h3 id="安装nginx">安装Nginx</h3>
+<ol>
+<li>
+<p>创建nginx的docker目录</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">mkdir /docker/nginx
+</code></pre></div></li>
+<li>
+<p>在nginx目录下新建docker-compose.yml文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">version: &#34;3&#34;
+services:
+nginx:
+restart: always
+container_name: nginx
+image: nginx
+networks:
+   - db
+ports:
+   - 80:80
+volumes:
+   - ./conf/conf.d:/etc/nginx/conf.d
+   - ./etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+   - ./log:/var/log/nginx
+   - ./wwww:/var/www
+   - /home/code/tp5:/var/www/tp5 #挂在程序目录，建议此目录与php挂在目录保持一致
+networks:
+db:
+    external: true    
+</code></pre></div></li>
+<li>
+<p>配置TP5的conf，在/docker/nginx/conf/conf.d下创建tp.conf文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"> server {
+     listen 80;
+     listen [::]:80;
+     server_name 127.0.0.1;
+         root /var/www/tp5;
+         index index.html index.htm index.php default.html default.htm default.php;
+
+     location / {
+             index index.html index.php;
+             if (!-e $request_filename) {
+                     rewrite  ^(.*)$  /index.php?s=$1  last;
+                     break;
+             }
+     }
+
+     location ~ .*\.(php|php5)?$
+     {
+         fastcgi_pass    php72_fpm_1:9000; #与docker ps命令列表中的NAMES保持一直
+         fastcgi_index   index.php;
+         fastcgi_param   SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+         fastcgi_param   SCRIPT_NAME      $fastcgi_script_name;
+         include         fastcgi_params;
+     }
+
+     location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
+     {
+         expires      30d;
+     }
+
+     location ~ .*\.(js|css)?$
+     {
+         expires      12h;
+     }
+
+     location ~ /.well-known {
+         allow all;
+     }
+
+     location ~ /\.
+     {
+         deny all;
+     }
+
+     access_log  /var/log/nginx/tp5.access.log;
+     error_log  /var/log/nginx/tp5.error.log; 
+</code></pre></div></li>
+<li>
+<p>启动服务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">docker-compose up -d 
+</code></pre></div><p>测试//127.0.0.1/index.php</p>
+</li>
+</ol>
+<h3 id="目录结构">目录结构</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"> ├── docker
+ │   ├── nginx
+ │   │   ├── conf
+ │   │   │   └── conf.d
+ │   │   │       └── tp5.conf
+ │   │   ├── docker-compose.yml
+ │   │   ├── etc
+ │   │   │   └── nginx
+ │   │   │       └── nginx.conf
+ │   │   ├── html
+ │   │   ├── log
+ │   │   │   ├── tp5.access.log
+ │   │   │   └── tp5.error.log
+ │   │   ├── timezone
+ │   │   └── wwww
+ │   ├── php72
+ │   │   ├── docker-compose.yml
+ │   │   └── php7.2_fpm_dockerfile
+</code></pre></div></section>
+
+  
+  
+  <footer class="post-tags">
+     
+    <a href="https://jiangyao-zh.github.io/tags/docker">Docker</a>
+     
+    <a href="https://jiangyao-zh.github.io/tags/compose">Compose</a>
+     
+    <a href="https://jiangyao-zh.github.io/tags/php">PHP</a>
+    
+  </footer>
+  
+
+  
+  
+  
+  <nav class="post-nav">
+     
+    <a class="next" href="https://jiangyao-zh.github.io/post/hexo-new-page-fatal-typeerror-object-fromentries-is-not-a-function/"><span>hexo new page fatal.(TypeError: Object.fromEntries is not a function)</span><span>→</span></a>
+    
+  </nav>
+  
+
+  
+  
+</article>
+
+</main>
+
+    <footer class="footer">
+  <p>&copy; 2022 <a href="https://jiangyao-zh.github.io">Note</a></p>
+  <p>Powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo️️</a>️</p>
+  <p>
+    <a href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">Paper 5.1</a>
+  </p>
+</footer>
+
+  </body>
+</html>
