@@ -6,7 +6,7 @@
   <link href="https://jiangyao-zh.github.io/atom.xml" rel="self"/>
   
   <link href="https://jiangyao-zh.github.io/"/>
-  <updated>2022-06-07T09:48:42.425Z</updated>
+  <updated>2022-06-10T06:23:20.296Z</updated>
   <id>https://jiangyao-zh.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>golang检查数组中是否存在某个值</title>
+    <link href="https://jiangyao-zh.github.io/2022/06/10/golang%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E4%B8%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%9F%90%E4%B8%AA%E5%80%BC/"/>
+    <id>https://jiangyao-zh.github.io/2022/06/10/golang%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E4%B8%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%9F%90%E4%B8%AA%E5%80%BC/</id>
+    <published>2022-06-10T02:12:52.000Z</published>
+    <updated>2022-06-10T06:23:20.296Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="golang检查数组中是否存在某个值"><a href="#golang检查数组中是否存在某个值" class="headerlink" title="golang检查数组中是否存在某个值"></a>golang检查数组中是否存在某个值</h2><ul><li>类似PHP用的in_array功能实现<blockquote><p>in_array(mixed $needle, array $haystack, bool $strict &#x3D; false): bool</p></blockquote></li></ul><p>在Go 1.18 版本支持泛型以后，可以在<strong>pkg.go.dev</strong>中的slices包下查找<a href="https://pkg.go.dev/golang.org/x/exp@v0.0.0-20220609121020-a51bd0440498/slices#Contains">Contains</a>方法用作实现,例如：</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br> <span class="hljs-string">&quot;fmt&quot;</span><br><br> <span class="hljs-string">&quot;golang.org/x/exp/slices&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br> <span class="hljs-keyword">var</span> date <span class="hljs-type">string</span> = <span class="hljs-string">&quot;createdAt&quot;</span><br> dateType := []<span class="hljs-type">string</span>&#123;<span class="hljs-string">&quot;createdAt&quot;</span>, <span class="hljs-string">&quot;updatedAt&quot;</span>&#125;<br> <span class="hljs-keyword">if</span> slices.Contains[<span class="hljs-type">string</span>](dateType, date) &#123;<br>  fmt.Println(<span class="hljs-string">&quot;yes&quot;</span>)<br> &#125; <span class="hljs-keyword">else</span> &#123;<br>  fmt.Println(<span class="hljs-string">&quot;no&quot;</span>)<br> &#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;golang检查数组中是否存在某个值&quot;&gt;&lt;a href=&quot;#golang检查数组中是否存在某个值&quot; class=&quot;headerlink&quot; title=&quot;golang检查数组中是否存在某个值&quot;&gt;&lt;/a&gt;golang检查数组中是否存在某个值&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;</summary>
+      
+    
+    
+    
+    <category term="开发" scheme="https://jiangyao-zh.github.io/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+    <category term="Go" scheme="https://jiangyao-zh.github.io/tags/Go/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker+TP5部署</title>
