@@ -1,30 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Docker on Note</title>
-    <link>https://jiangyao-zh.github.io/tags/docker/</link>
-    <description>Recent content in Docker on Note</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 26 May 2022 10:25:19 +0000</lastBuildDate>
-    
-	<atom:link href="https://jiangyao-zh.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Docker&#43;TP5部署</title>
-      <link>https://jiangyao-zh.github.io/post/docker-tp5%E9%83%A8%E7%BD%B2/</link>
-      <pubDate>Thu, 26 May 2022 10:25:19 +0000</pubDate>
-      
-      <guid>https://jiangyao-zh.github.io/post/docker-tp5%E9%83%A8%E7%BD%B2/</guid>
-      <description>使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）  Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.29.1（文件格式版本3.0，建议安装最新版本）  安装Docker curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 详细教程
-安装docker-compose   下载最新版的docker-compose文件
-sudo curl -L https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose   添加可执行权限
-sudo chmod +x /usr/local/bin/docker-compose   查看版本
-docker-compose -v docker-compose version 1.29.1, build 8dd22a9   安装PHP   创建php7.2的docker目录(每个项目支持PHP较为不同，所以版本号命名方便区分)
-mkdir /docker/php7.2   在php7.2目录下新建docker-compose.yml文件
-version: &amp;#34;3&amp;#34; services: fpm: build: context: .</description>
-    </item>
-    
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Docker - 标签 - Note</title>
+        <link>https://jiangyao-zh.github.io/tags/docker/</link>
+        <description>Docker - 标签 - Note</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 26 May 2022 10:25:19 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/tags/docker/" rel="self" type="application/rss+xml" /><item>
+    <title>Docker&#43;TP5部署</title>
+    <link>https://jiangyao-zh.github.io/posts/docker-tp5%E9%83%A8%E7%BD%B2/</link>
+    <pubDate>Thu, 26 May 2022 10:25:19 &#43;0000</pubDate><author>
+        <name>作者</name>
+    </author><guid>https://jiangyao-zh.github.io/posts/docker-tp5%E9%83%A8%E7%BD%B2/</guid>
+    <description><![CDATA[使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql） Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.]]></description>
+</item></channel>
 </rss>

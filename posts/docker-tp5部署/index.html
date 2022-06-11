@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title class="pjax-title">Docker&#43;TP5部署 - Note</title><meta name="Description" content=""><meta property="og:title" content="Docker&#43;TP5部署" />
+<meta property="og:description" content="使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql） Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jiangyao-zh.github.io/posts/docker-tp5%E9%83%A8%E7%BD%B2/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-26T10:25:19+00:00" />
+<meta property="article:modified_time" content="2022-05-26T10:25:19+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Docker&#43;TP5部署"/>
+<meta name="twitter:description" content="使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql） Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1."/>
+<meta name="application-name" content="Note">
+<meta name="apple-mobile-web-app-title" content="Note">
+
+<meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://jiangyao-zh.github.io/posts/docker-tp5%E9%83%A8%E7%BD%B2/" /><link rel="prev" href="https://jiangyao-zh.github.io/posts/hexo-new-page-fatal-typeerror-object-fromentries-is-not-a-function/" /><link rel="next" href="https://jiangyao-zh.github.io/posts/golang%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E4%B8%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%9F%90%E4%B8%AA%E5%80%BC/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Docker+TP5部署",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jiangyao-zh.github.io\/posts\/docker-tp5%E9%83%A8%E7%BD%B2\/"
+        },"genre": "posts","keywords": "Docker, Compose, PHP","wordcount":  850 ,
+        "url": "https:\/\/jiangyao-zh.github.io\/posts\/docker-tp5%E9%83%A8%E7%BD%B2\/","datePublished": "2022-05-26T10:25:19+00:00","dateModified": "2022-05-26T10:25:19+00:00","publisher": {
+            "@type": "Organization",
+            "name": "作者"},"author": {
+                "@type": "Person",
+                "name": "作者"
+            },"description": ""
+    }
+    </script></head>
+
+<body header-desktop="" header-mobile=""><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme);}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('' === 'light' || '' === 'dark' || '' === 'black') setTheme(''), saveTheme(''); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Note">Note</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Note">Note</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Docker&#43;TP5部署</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><i class="author fas fa-user-circle fa-fw"></i><a href="/" title="Author" rel=" author" class="author">作者</a>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E8%BF%90%E7%BB%B4/"><i class="far fa-folder fa-fw"></i>运维</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-05-26">2022-05-26</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-05-26">2022-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 850 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#使用compose对tp5进行部署">使用Compose对TP5进行部署</a>
+      <ul>
+        <li><a href="#软件版本说明数据相对独立本文不涉及数据库安装建议使用mysql">软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）</a></li>
+        <li><a href="#安装docker">安装Docker</a></li>
+        <li><a href="#安装docker-compose">安装docker-compose</a></li>
+        <li><a href="#安装php">安装PHP</a></li>
+        <li><a href="#安装nginx">安装Nginx</a></li>
+        <li><a href="#目录结构">目录结构</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="使用compose对tp5进行部署">使用Compose对TP5进行部署</h2>
+<h3 id="软件版本说明数据相对独立本文不涉及数据库安装建议使用mysql">软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql）</h3>
+<ol>
+<li>Nginx 1.16</li>
+<li>PHP 7.2</li>
+<li>CentOS 7.9（已安装）</li>
+<li>Docker <a href="https://docs.docker.com/engine/release-notes/" target="_blank" rel="noopener noreffer">20.10.14</a></li>
+<li>docker-compose <a href="https://docs.docker.com/compose/release-notes/" target="_blank" rel="noopener noreffer">1.29.1</a>（文件格式版本3.0，建议安装最新版本）</li>
+</ol>
+<h3 id="安装docker">安装Docker</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+</code></pre></div><p><a href="https://www.runoob.com/docker/centos-docker-install.html" target="_blank" rel="noopener noreffer">详细教程</a></p>
+<h3 id="安装docker-compose">安装docker-compose</h3>
+<ol>
+<li>
+<p>下载最新版的docker-compose文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">sudo curl -L https://github.com/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+</code></pre></div></li>
+<li>
+<p>添加可执行权限</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">sudo chmod +x /usr/local/bin/docker-compose
+</code></pre></div></li>
+<li>
+<p>查看版本</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">docker-compose -v
+docker-compose version 1.29.1, build 8dd22a9
+</code></pre></div></li>
+</ol>
+<h3 id="安装php">安装PHP</h3>
+<ol>
+<li>
+<p>创建php7.2的docker目录(每个项目支持PHP较为不同，所以版本号命名方便区分)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">mkdir /docker/php7.2
+</code></pre></div></li>
+<li>
+<p>在php7.2目录下新建docker-compose.yml文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">    version: &#34;3&#34;
+
+    services:
+    fpm:
+        build:
+            context: ./ #Dockerfile路径
+            dockerfile: php7.2_fpm_dockerfile #服务除了可以基于指定的镜像，还可以基于一份Dockerfile，我把Dockerfile放到下面
+        restart: always
+        networks:
+           - db
+        environment:
+           - TZ=Asia/Shanghai
+        privileged: true
+        volumes:
+           - /home/code/tp5:/var/www/tp5 #挂在程序目录，建议此目录与nginx挂在目录保持一致
+    networks:
+    db:
+        external: true 
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">FROM php:7.2.24-fpm
+RUN docker-php-ext-install pdo pdo_mysql #增加mysql扩展
+</code></pre></div></li>
+<li>
+<p>启动服务</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">docker-compose up -d 
+</code></pre></div><p>在/home/code/tp5目录下创建index.php进行测试</p>
+</li>
+</ol>
+<h3 id="安装nginx">安装Nginx</h3>
+<ol>
+<li>
+<p>创建nginx的docker目录</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">mkdir /docker/nginx
+</code></pre></div></li>
+<li>
+<p>在nginx目录下新建docker-compose.yml文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">version: &#34;3&#34;
+services:
+nginx:
+restart: always
+container_name: nginx
+image: nginx
+networks:
+   - db
+ports:
+   - 80:80
+volumes:
+   - ./conf/conf.d:/etc/nginx/conf.d
+   - ./etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+   - ./log:/var/log/nginx
+   - ./wwww:/var/www
+   - /home/code/tp5:/var/www/tp5 #挂在程序目录，建议此目录与php挂在目录保持一致
+networks:
+db:
+    external: true    
+</code></pre></div></li>
+<li>
+<p>配置TP5的conf，在/docker/nginx/conf/conf.d下创建tp.conf文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"> server {
+     listen 80;
+     listen [::]:80;
+     server_name 127.0.0.1;
+         root /var/www/tp5;
+         index index.html index.htm index.php default.html default.htm default.php;
+
+     location / {
+             index index.html index.php;
+             if (!-e $request_filename) {
+                     rewrite  ^(.*)$  /index.php?s=$1  last;
+                     break;
+             }
+     }
+
+     location ~ .*\.(php|php5)?$
+     {
+         fastcgi_pass    php72_fpm_1:9000; #与docker ps命令列表中的NAMES保持一直
+         fastcgi_index   index.php;
+         fastcgi_param   SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+         fastcgi_param   SCRIPT_NAME      $fastcgi_script_name;
+         include         fastcgi_params;
+     }
+
+     location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
+     {
+         expires      30d;
+     }
+
+     location ~ .*\.(js|css)?$
+     {
+         expires      12h;
+     }
+
+     location ~ /.well-known {
+         allow all;
+     }
+
+     location ~ /\.
+     {
+         deny all;
+     }
+
+     access_log  /var/log/nginx/tp5.access.log;
+     error_log  /var/log/nginx/tp5.error.log; 
+</code></pre></div></li>
+<li>
+<p>启动服务</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">docker-compose up -d 
+</code></pre></div><p>测试//127.0.0.1/index.php</p>
+</li>
+</ol>
+<h3 id="目录结构">目录结构</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"> ├── docker
+ │   ├── nginx
+ │   │   ├── conf
+ │   │   │   └── conf.d
+ │   │   │       └── tp5.conf
+ │   │   ├── docker-compose.yml
+ │   │   ├── etc
+ │   │   │   └── nginx
+ │   │   │       └── nginx.conf
+ │   │   ├── html
+ │   │   ├── log
+ │   │   │   ├── tp5.access.log
+ │   │   │   └── tp5.error.log
+ │   │   ├── timezone
+ │   │   └── wwww
+ │   ├── php72
+ │   │   ├── docker-compose.yml
+ │   │   └── php7.2_fpm_dockerfile
+</code></pre></div></div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-05-26</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/docker/">Docker</a>,&nbsp;<a href="/tags/compose/">Compose</a>,&nbsp;<a href="/tags/php/">PHP</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/hexo-new-page-fatal-typeerror-object-fromentries-is-not-a-function/" class="prev" rel="prev" title="hexo new page fatal.(TypeError: Object.fromEntries is not a function)"><i class="fas fa-angle-left fa-fw"></i>hexo new page fatal.(TypeError: Object.fromEntries is not a function)</a>
+            <a href="/posts/golang%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E4%B8%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%9F%90%E4%B8%AA%E5%80%BC/" class="next" rel="next" title="golang检查数组中是否存在某个值">golang检查数组中是否存在某个值<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.91.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer"></a></span></div>
+        </div></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/fuse/fuse.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/topbar/topbar.min.js"></script><script type="text/javascript" src="/lib/pjax/pjax.min.js"></script><script type="text/javascript" src="/js/theme.min.js"></script></div>
+
+<div class="pjax-assets"><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"search":{"distance":100,"findAllMatches":false,"highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"useExtendedSearch":false}};</script></div>
+</body>
+
+</html>
