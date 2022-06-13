@@ -9,6 +9,6 @@
     <pubDate>Thu, 26 May 2022 10:25:19 &#43;0000</pubDate><author>
         <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/posts/docker-tp5%E9%83%A8%E7%BD%B2/</guid>
-    <description><![CDATA[使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql） Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.]]></description>
+    <description><![CDATA[使用Compose对TP5进行部署 软件版本说明 Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.29.1（文件格式版本3.0，建议安装最新版本） 注意 数据相]]></description>
 </item></channel>
 </rss>

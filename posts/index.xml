@@ -4,7 +4,7 @@
         <link>https://jiangyao-zh.github.io/posts/</link>
         <description>所有文章 | Note</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/posts/" rel="self" type="application/rss+xml" /><item>
-    <title>hugo部署报错</title>
+    <title>hugo&#43;DoIt部署报错</title>
     <link>https://jiangyao-zh.github.io/posts/hugo%E9%83%A8%E7%BD%B2%E6%8A%A5%E9%94%99/</link>
     <pubDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</pubDate><author>
         <name>Yao</name>
@@ -23,7 +23,7 @@
     <pubDate>Thu, 26 May 2022 10:25:19 &#43;0000</pubDate><author>
         <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/posts/docker-tp5%E9%83%A8%E7%BD%B2/</guid>
-    <description><![CDATA[使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql） Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.]]></description>
+    <description><![CDATA[使用Compose对TP5进行部署 软件版本说明 Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.29.1（文件格式版本3.0，建议安装最新版本） 注意 数据相]]></description>
 </item><item>
     <title>hexo new page fatal.(TypeError: Object.fromEntries is not a function)</title>
     <link>https://jiangyao-zh.github.io/posts/hexo-new-page-fatal-typeerror-object-fromentries-is-not-a-function/</link>
