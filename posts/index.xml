@@ -4,14 +4,14 @@
         <link>https://jiangyao-zh.github.io/posts/</link>
         <description>所有文章 | Note</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/posts/" rel="self" type="application/rss+xml" /><item>
-    <title>hugo&#43;DoIt部署报错</title>
+    <title>Hugo&#43;DoIt部署报错</title>
     <link>https://jiangyao-zh.github.io/posts/hugo%E9%83%A8%E7%BD%B2%E6%8A%A5%E9%94%99/</link>
     <pubDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</pubDate><author>
         <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/posts/hugo%E9%83%A8%E7%BD%B2%E6%8A%A5%E9%94%99/</guid>
     <description><![CDATA[使用DoIt主题进行hugo server时报错，问题处理流程如下 错误信息描述 1 2 $ hugo server Error: add site dependencies: load resources: loading templates: &#34;/themes/DoIt/layouts/partials/meta/author.html:8:1&#34;: parse failed: template: partials/meta/author.html:8: unclosed action 安装最新版本环境变量 查看]]></description>
 </item><item>
-    <title>golang检查数组中是否存在某个值</title>
+    <title>GoLang检查数组中是否存在某个值</title>
     <link>https://jiangyao-zh.github.io/posts/golang%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E4%B8%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%9F%90%E4%B8%AA%E5%80%BC/</link>
     <pubDate>Fri, 10 Jun 2022 10:12:52 &#43;0000</pubDate><author>
         <name>Yao</name>
