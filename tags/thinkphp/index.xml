@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Thinkphp - 标签 - Note</title>
+        <link>https://jiangyao-zh.github.io/tags/thinkphp/</link>
+        <description>Thinkphp - 标签 - Note</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 26 May 2022 10:25:19 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/tags/thinkphp/" rel="self" type="application/rss+xml" /><item>
+    <title>Docker&#43;TP5部署</title>
+    <link>https://jiangyao-zh.github.io/posts/docker-tp5%E9%83%A8%E7%BD%B2/</link>
+    <pubDate>Thu, 26 May 2022 10:25:19 &#43;0000</pubDate><author>
+        <name>Yao</name>
+    </author><guid>https://jiangyao-zh.github.io/posts/docker-tp5%E9%83%A8%E7%BD%B2/</guid>
+    <description><![CDATA[使用Compose对TP5进行部署 软件版本说明（数据相对独立，本文不涉及数据库安装，建议使用mysql） Nginx 1.16 PHP 7.2 CentOS 7.9（已安装） Docker 20.10.14 docker-compose 1.]]></description>
+</item></channel>
+</rss>

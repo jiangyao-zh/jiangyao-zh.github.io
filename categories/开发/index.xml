@@ -7,7 +7,7 @@
     <title>golang检查数组中是否存在某个值</title>
     <link>https://jiangyao-zh.github.io/posts/golang%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E4%B8%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%9F%90%E4%B8%AA%E5%80%BC/</link>
     <pubDate>Fri, 10 Jun 2022 10:12:52 &#43;0000</pubDate><author>
-        <name>作者</name>
+        <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/posts/golang%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E4%B8%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%9F%90%E4%B8%AA%E5%80%BC/</guid>
     <description><![CDATA[golang检查数组中是否存在某个值 类似PHP用的in_array功能实现 in_array(mixed $needle, array $haystack, bool $strict = false): bool 在Go 1.18 版本支持泛型以后，可以在pkg.go.d]]></description>
 </item></channel>

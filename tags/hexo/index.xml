@@ -7,7 +7,7 @@
     <title>hexo new page fatal.(TypeError: Object.fromEntries is not a function)</title>
     <link>https://jiangyao-zh.github.io/posts/hexo-new-page-fatal-typeerror-object-fromentries-is-not-a-function/</link>
     <pubDate>Mon, 25 Apr 2022 17:12:52 &#43;0000</pubDate><author>
-        <name>作者</name>
+        <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/posts/hexo-new-page-fatal-typeerror-object-fromentries-is-not-a-function/</guid>
     <description><![CDATA[生成hexo文章遇到TypeError: Object.fromEntries is not a function错误 排查问题 NodeJs版本过低原因，需要 12.x 以上版本才行，本地版本是10.1]]></description>
 </item></channel>

@@ -3,11 +3,18 @@
         <title>Web - 分类 - Note</title>
         <link>https://jiangyao-zh.github.io/categories/web/</link>
         <description>Web - 分类 - Note</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 25 Apr 2022 17:12:52 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/categories/web/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/categories/web/" rel="self" type="application/rss+xml" /><item>
+    <title>hugo部署报错</title>
+    <link>https://jiangyao-zh.github.io/posts/hugo%E9%83%A8%E7%BD%B2%E6%8A%A5%E9%94%99/</link>
+    <pubDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</pubDate><author>
+        <name>Yao</name>
+    </author><guid>https://jiangyao-zh.github.io/posts/hugo%E9%83%A8%E7%BD%B2%E6%8A%A5%E9%94%99/</guid>
+    <description><![CDATA[使用DoIt主题进行hugo server时报错，问题处理流程如下 错误信息描述 1 2 $ hugo server Error: add site dependencies: load resources: loading templates: &#34;/themes/DoIt/layouts/partials/meta/author.html:8:1&#34;: parse failed: template: partials/meta/author.html:8: unclosed action 安装最新版本环境变量 查看]]></description>
+</item><item>
     <title>hexo new page fatal.(TypeError: Object.fromEntries is not a function)</title>
     <link>https://jiangyao-zh.github.io/posts/hexo-new-page-fatal-typeerror-object-fromentries-is-not-a-function/</link>
     <pubDate>Mon, 25 Apr 2022 17:12:52 &#43;0000</pubDate><author>
-        <name>作者</name>
+        <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/posts/hexo-new-page-fatal-typeerror-object-fromentries-is-not-a-function/</guid>
     <description><![CDATA[生成hexo文章遇到TypeError: Object.fromEntries is not a function错误 排查问题 NodeJs版本过低原因，需要 12.x 以上版本才行，本地版本是10.1]]></description>
 </item></channel>

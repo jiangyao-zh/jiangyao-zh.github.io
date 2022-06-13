@@ -3,46 +3,67 @@
         <title>Tags - 标签 - Note</title>
         <link>https://jiangyao-zh.github.io/tags/</link>
         <description>Tags - 标签 - Note</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 10 Jun 2022 10:12:52 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+    <title>DoIt</title>
+    <link>https://jiangyao-zh.github.io/tags/doit/</link>
+    <pubDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</pubDate><author>
+        <name>Yao</name>
+    </author><guid>https://jiangyao-zh.github.io/tags/doit/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>hugo</title>
+    <link>https://jiangyao-zh.github.io/tags/hugo/</link>
+    <pubDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</pubDate><author>
+        <name>Yao</name>
+    </author><guid>https://jiangyao-zh.github.io/tags/hugo/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
     <title>Go</title>
     <link>https://jiangyao-zh.github.io/tags/go/</link>
     <pubDate>Fri, 10 Jun 2022 10:12:52 &#43;0000</pubDate><author>
-        <name>作者</name>
+        <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/tags/go/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>Compose</title>
     <link>https://jiangyao-zh.github.io/tags/compose/</link>
     <pubDate>Thu, 26 May 2022 10:25:19 &#43;0000</pubDate><author>
-        <name>作者</name>
+        <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/tags/compose/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>Docker</title>
     <link>https://jiangyao-zh.github.io/tags/docker/</link>
     <pubDate>Thu, 26 May 2022 10:25:19 &#43;0000</pubDate><author>
-        <name>作者</name>
+        <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/tags/docker/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>PHP</title>
     <link>https://jiangyao-zh.github.io/tags/php/</link>
     <pubDate>Thu, 26 May 2022 10:25:19 &#43;0000</pubDate><author>
-        <name>作者</name>
+        <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/tags/php/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Thinkphp</title>
+    <link>https://jiangyao-zh.github.io/tags/thinkphp/</link>
+    <pubDate>Thu, 26 May 2022 10:25:19 &#43;0000</pubDate><author>
+        <name>Yao</name>
+    </author><guid>https://jiangyao-zh.github.io/tags/thinkphp/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>Hexo</title>
     <link>https://jiangyao-zh.github.io/tags/hexo/</link>
     <pubDate>Mon, 25 Apr 2022 17:12:52 &#43;0000</pubDate><author>
-        <name>作者</name>
+        <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/tags/hexo/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>NodeJs</title>
     <link>https://jiangyao-zh.github.io/tags/nodejs/</link>
     <pubDate>Mon, 25 Apr 2022 17:12:52 &#43;0000</pubDate><author>
-        <name>作者</name>
+        <name>Yao</name>
     </author><guid>https://jiangyao-zh.github.io/tags/nodejs/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
