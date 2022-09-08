@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>ImageMagick - 标签 - Note</title>
+        <link>https://jiangyao-zh.github.io/tags/imagemagick/</link>
+        <description>ImageMagick - 标签 - Note</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 08 Sep 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/tags/imagemagick/" rel="self" type="application/rss+xml" /><item>
+    <title>PHP实现PDF转图片</title>
+    <link>https://jiangyao-zh.github.io/posts/php%E5%AE%9E%E7%8E%B0pdf%E8%BD%AC%E5%9B%BE%E7%89%87/</link>
+    <pubDate>Thu, 08 Sep 2022 00:00:00 &#43;0000</pubDate><author>
+        <name>Yao</name>
+    </author><guid>https://jiangyao-zh.github.io/posts/php%E5%AE%9E%E7%8E%B0pdf%E8%BD%AC%E5%9B%BE%E7%89%87/</guid>
+    <description><![CDATA[使用PHP对PDF格式文件的图片转换 功能概述 此功能操作需要ImageMagick、Ghostscript、imagick的PHP扩展模块来共]]></description>
+</item></channel>
+</rss>

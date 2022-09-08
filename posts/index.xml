@@ -3,7 +3,14 @@
         <title>所有文章 - Note</title>
         <link>https://jiangyao-zh.github.io/posts/</link>
         <description>所有文章 | Note</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 08 Sep 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://jiangyao-zh.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>PHP实现PDF转图片</title>
+    <link>https://jiangyao-zh.github.io/posts/php%E5%AE%9E%E7%8E%B0pdf%E8%BD%AC%E5%9B%BE%E7%89%87/</link>
+    <pubDate>Thu, 08 Sep 2022 00:00:00 &#43;0000</pubDate><author>
+        <name>Yao</name>
+    </author><guid>https://jiangyao-zh.github.io/posts/php%E5%AE%9E%E7%8E%B0pdf%E8%BD%AC%E5%9B%BE%E7%89%87/</guid>
+    <description><![CDATA[使用PHP对PDF格式文件的图片转换 功能概述 此功能操作需要ImageMagick、Ghostscript、imagick的PHP扩展模块来共]]></description>
+</item><item>
     <title>Hugo&#43;DoIt部署报错</title>
     <link>https://jiangyao-zh.github.io/posts/hugo%E9%83%A8%E7%BD%B2%E6%8A%A5%E9%94%99/</link>
     <pubDate>Mon, 13 Jun 2022 00:00:00 &#43;0000</pubDate><author>

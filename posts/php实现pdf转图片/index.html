@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title class="pjax-title">PHP实现PDF转图片 - Note</title><meta name="Description" content=""><meta property="og:title" content="PHP实现PDF转图片" />
+<meta property="og:description" content="使用PHP对PDF格式文件的图片转换 功能概述 此功能操作需要ImageMagick、Ghostscript、imagick的PHP扩展模块来共" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jiangyao-zh.github.io/posts/php%E5%AE%9E%E7%8E%B0pdf%E8%BD%AC%E5%9B%BE%E7%89%87/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-09-08T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PHP实现PDF转图片"/>
+<meta name="twitter:description" content="使用PHP对PDF格式文件的图片转换 功能概述 此功能操作需要ImageMagick、Ghostscript、imagick的PHP扩展模块来共"/>
+<meta name="application-name" content="Note">
+<meta name="apple-mobile-web-app-title" content="Note">
+
+<meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://jiangyao-zh.github.io/posts/php%E5%AE%9E%E7%8E%B0pdf%E8%BD%AC%E5%9B%BE%E7%89%87/" /><link rel="prev" href="https://jiangyao-zh.github.io/posts/hugo%E9%83%A8%E7%BD%B2%E6%8A%A5%E9%94%99/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "PHP实现PDF转图片",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/jiangyao-zh.github.io\/posts\/php%E5%AE%9E%E7%8E%B0pdf%E8%BD%AC%E5%9B%BE%E7%89%87\/"
+        },"genre": "posts","keywords": "PHP, ImageMagick, Ghostscript","wordcount":  1065 ,
+        "url": "https:\/\/jiangyao-zh.github.io\/posts\/php%E5%AE%9E%E7%8E%B0pdf%E8%BD%AC%E5%9B%BE%E7%89%87\/","datePublished": "2022-09-08T00:00:00+00:00","dateModified": "2022-09-08T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "Yao"},"author": {
+                "@type": "Person",
+                "name": "Yao"
+            },"description": ""
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme);}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('' === 'light' || '' === 'dark' || '' === 'black') setTheme(''), saveTheme(''); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Note"><span class="header-title-pre"><span class="header-title-pre"><i class="far fa-edit fa-fw"></i></span></span>$ sh Note.sh<span class="header-title-post"><style>.animation::after {content:"";display: inline-block; color: rgb(22, 18, 9);width:3px;height:24px;animation: blink 1s infinite steps(1, start)}@keyframes blink{0%{background-color: white;}50% {background-color: black;}100% {background-color: white;}</style><span class="animation" style="margin: 0px -6.10156px 0px 1.10156px;"></span></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-select" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                    <select class="color-theme-select" id="theme-select-desktop" title="切换主题">
+                        <option value="light">浅色</option>
+                        <option value="dark">深色</option>
+                        <option value="black">黑色</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Note"><span class="header-title-pre"><span class="header-title-pre"><i class="far fa-edit fa-fw"></i></span></span>$ sh Note.sh<span class="header-title-post"><style>.animation::after {content:"";display: inline-block; color: rgb(22, 18, 9);width:3px;height:24px;animation: blink 1s infinite steps(1, start)}@keyframes blink{0%{background-color: white;}50% {background-color: black;}100% {background-color: white;}</style><span class="animation" style="margin: 0px -6.10156px 0px 1.10156px;"></span></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="#" onclick="return false;" class="menu-item theme-select" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+                <select class="color-theme-select" id="theme-select-mobile" title="切换主题">
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                    <option value="black">黑色</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">PHP实现PDF转图片</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><i class="author fas fa-user-circle fa-fw"></i><a href="/" title="Author" rel=" author" class="author">Yao</a>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/web/"><i class="far fa-folder fa-fw"></i>Web</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-09-08">2022-09-08</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2022-09-08">2022-09-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1065 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#使用php对pdf格式文件的图片转换">使用PHP对PDF格式文件的图片转换</a>
+      <ul>
+        <li><a href="#功能概述">功能概述</a></li>
+        <li><a href="#软件版本说明">软件版本说明</a></li>
+        <li><a href="#安装imagemagick">安装ImageMagick</a></li>
+        <li><a href="#安装php的imagick拓展">安装PHP的imagick拓展</a></li>
+        <li><a href="#安装ghostscript">安装Ghostscript</a></li>
+        <li><a href="#php实现pdf转图片实例">PHP实现PDF转图片实例</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="使用php对pdf格式文件的图片转换">使用PHP对PDF格式文件的图片转换</h2>
+<h3 id="功能概述">功能概述</h3>
+<p>此功能操作需要ImageMagick、Ghostscript、imagick的PHP扩展模块来共同完成，下面先详细介绍下三者的关联：</p>
+<ol>
+<li>ImageMagick是第三方的图片处理软件，类似GD，<a href="https://www.imagemagick.org" target="_blank" rel="noopener noreffer">官网</a>，<a href="https://jelly.jd.com/article/5c34081bd7aa2c0055d09a71" target="_blank" rel="noopener noreffer">中文介绍</a>。</li>
+<li>imagick是php的一个扩展模块，它调用ImageMagick提供的API来进行图片的操作，<a href="https://www.php.net/manual/zh/book.imagick.php" target="_blank" rel="noopener noreffer">官网</a>。</li>
+<li>Ghostscript是一套建基于Adobe、PostScript及可移植文档格式（PDF）的页面描述语言等而编译成的免费软件，<a href="https://www.ghostscript.com" target="_blank" rel="noopener noreffer">官网</a>。Ghostscript最初是以商业软件形式在PC市场上发售，并称之为“GoScript”。但由于速度太慢（半小时一版A4），销量极差。后来有心人买下了版权，并改在Linux上开发，成为了今日的Ghostscript。已经从Linux版本移植到其他操作系统，如其他Unix、Mac OS X、VMS、Windows、OS/2和Mac OS classic。</li>
+<li>三者关系，ImageMagick无法直接实现pdf文档到图片的转换，需要借助于gostscript软件包，然后由ImageMagick处理图片，最后如果是选择PHP开发就要使用imagick对接ImageMagick。</li>
+</ol>
+<h3 id="软件版本说明">软件版本说明</h3>
+<ol>
+<li>PHP 7.2.19</li>
+<li>ImageMagick 7.1.0-47</li>
+<li>Ghostscript 9.56.1</li>
+<li>imagick 3.7.0</li>
+</ol>
+<h3 id="安装imagemagick">安装ImageMagick</h3>
+<ol>
+<li>
+<p>下载ImageMagick</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://imagemagick.org/archive/ImageMagick.tar.gz
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>解压安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tar zxvf ImageMagick.tar.gz
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ImageMagick-7.1.0-47/
+</span></span><span class="line"><span class="cl">./configure --prefix<span class="o">=</span>/usr/local/imagemagick
+</span></span><span class="line"><span class="cl">make <span class="o">&amp;&amp;</span> make install
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h3 id="安装php的imagick拓展">安装PHP的imagick拓展</h3>
+<ol>
+<li>
+<p>下载imagick</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://pecl.php.net/get/imagick-3.7.0.tgz
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>解压安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tar zxvf imagick-3.7.0.tgz
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> imagick-3.7.0/
+</span></span><span class="line"><span class="cl">/usr/local/php/bin/phpize   <span class="c1">#用phpize生成</span>
+</span></span><span class="line"><span class="cl">ln -s /usr/local/imagemagick/include/ImageMagick-7 /usr/local/imagemagick/include/ImageMagick <span class="c1">#ImageMagick6.8以上版本为/usr/local/include/ImageMagick-X,在configure之前先做下软连接</span>
+</span></span><span class="line"><span class="cl">./configure --with-php-config<span class="o">=</span>/usr/local/php/bin/php-config --with-imagick<span class="o">=</span>/usr/local/imagemagick  <span class="c1">#编译</span>
+</span></span><span class="line"><span class="cl">make <span class="o">&amp;&amp;</span> make install  <span class="c1">#安装</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查看版本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">php --ri imagick
+</span></span><span class="line"><span class="cl">imagick <span class="nv">module</span> <span class="o">=</span>&gt; enabled
+</span></span><span class="line"><span class="cl">imagick module <span class="nv">version</span> <span class="o">=</span>&gt; 3.7.0    
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>PHP imagick扩展安装可能会遇到的问题解决：configure通过,在make时出现错误error: wand/MagickWand.h: No such file or directory，解决方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum install gtk2-devel <span class="c1">#https://pkgs.org/download/gtk2-devel</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span>/usr/local/imagemagick/lib/pkgconfig/   
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h3 id="安装ghostscript">安装Ghostscript</h3>
+<ol>
+<li>
+<p>下载Ghostscript</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9561/ghostscript-9.56.1.tar.gz
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装Ghostscript</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tar -xzf ghostscript-9.56.1.tar.gz
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ghostscript-9.56.1
+</span></span><span class="line"><span class="cl">./configure
+</span></span><span class="line"><span class="cl">make <span class="o">&amp;&amp;</span> make install
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>测试gs</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gs -dQUIET -dNOSAFER -dBATCH -sDEVICE<span class="o">=</span>pngalpha -dNOPAUSE -dNOPROMPT -sOutputFile<span class="o">=</span>/home/wwwroot/demo/a%d.png test.pdf <span class="c1"># sOutputFile=图片生成路径 PDF文件路径</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h3 id="php实现pdf转图片实例">PHP实现PDF转图片实例</h3>
+<ol>
+<li>
+<p>代码块</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$pdf</span> <span class="o">=</span> <span class="s2">&#34;/home/demo/test.pdf&#34;</span><span class="p">;</span> <span class="c1">// PDF文件路径
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$path</span> <span class="o">=</span> <span class="s2">&#34;/home/demo/imgs/&#34;</span><span class="p">;</span> <span class="c1">// 图片生成路径
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">extension_loaded</span><span class="p">(</span><span class="s1">&#39;imagick&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">file_exists</span><span class="p">(</span><span class="nv">$pdf</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$im</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\Imagick</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$im</span><span class="o">-&gt;</span><span class="na">setResolution</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">120</span><span class="p">);</span> <span class="c1">// 设置分辨率，值越大分辨率越高
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$im</span><span class="o">-&gt;</span><span class="na">setCompressionQuality</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>  <span class="c1">// 压缩比1-100，100压缩比最低
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$im</span><span class="o">-&gt;</span><span class="na">readImage</span><span class="p">(</span><span class="nv">$pdf</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$return</span> <span class="o">=</span> <span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$im</span> <span class="k">as</span> <span class="nv">$k</span> <span class="o">=&gt;</span> <span class="nv">$v</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 循环输出图片
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nv">$v</span><span class="o">-&gt;</span><span class="na">setImageFormat</span><span class="p">(</span><span class="s1">&#39;png&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$fileName</span> <span class="o">=</span> <span class="nv">$path</span> <span class="o">.</span> <span class="nx">md5</span><span class="p">(</span><span class="nv">$k</span> <span class="o">.</span> <span class="nx">time</span><span class="p">())</span> <span class="o">.</span> <span class="s1">&#39;.png&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nv">$v</span><span class="o">-&gt;</span><span class="na">writeImage</span><span class="p">(</span><span class="nv">$fileName</span><span class="p">)</span> <span class="o">==</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$return</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$fileName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-09-08</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/php/">PHP</a>,&nbsp;<a href="/tags/imagemagick/">ImageMagick</a>,&nbsp;<a href="/tags/ghostscript/">Ghostscript</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/hugo%E9%83%A8%E7%BD%B2%E6%8A%A5%E9%94%99/" class="prev" rel="prev" title="Hugo&#43;DoIt部署报错"><i class="fas fa-angle-left fa-fw"></i>Hugo&#43;DoIt部署报错</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.100.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">Yao</a></span></div>
+        </div></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/fuse/fuse.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/topbar/topbar.min.js"></script><script type="text/javascript" src="/lib/pjax/pjax.min.js"></script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-G04687P0ZM', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-G04687P0ZM" async></script></div>
+
+<div class="pjax-assets"><script type="text/javascript" src="/lib/gitalk/gitalk.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":30},"comment":{"gitalk":{"admin":["jiangyao-zh"],"clientID":"9551c45c77f3cab6233b","clientSecret":"f6d5d168df51a46e6bd1333d63a0ba503b360f0a","id":"2022-09-08T00:00:00Z","owner":"jiangyao-zh","repo":"jiangyao-zh.github.io","title":"PHP实现PDF转图片"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/gitalk/gitalk.min.css">
+    <noscript><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/katex.min.css">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+    <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript></div>
+</body>
+
+</html>
